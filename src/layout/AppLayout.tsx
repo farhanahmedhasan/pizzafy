@@ -1,12 +1,17 @@
-import { Outlet } from 'react-router'
+import { Outlet, useNavigation } from 'react-router'
 
-import AppLayoutHeader from './AppLayoutHeader'
 import AppLayoutCartOverview from './AppLayoutCartOverview'
+import AppLayoutHeader from './AppLayoutHeader'
+import Spinner from './Spinner'
 
 export default function AppLayout() {
+  const navigation = useNavigation()
   return (
     <div>
       <AppLayoutHeader />
+
+      {navigation.state === 'loading' && <Spinner />}
+
       <main>
         <Outlet />
       </main>
