@@ -6,8 +6,6 @@ import MenuItem from './partials/MenuItem'
 export default function MenuPage() {
   const menu = useLoaderData()
 
-  console.log(menu)
-
   return (
     <div>
       <Link to={'/cart'}>GO Back to Cart</Link>

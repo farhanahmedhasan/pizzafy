@@ -1,5 +1,7 @@
 import { createBrowserRouter } from 'react-router'
 
+import ErrorIndexPage from './pages/error-page/ErrorIndexPage'
+import Error404Page from './pages/error-page/Error404Page'
 import { getMenu } from './services/apiRestaurant'
 import Homepage from './pages/home-page/Homepage'
 import MenuPage from './pages/menu-page/MenuPage'
@@ -10,6 +12,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
+    errorElement: <ErrorIndexPage />,
     children: [
       {
         path: '/',
@@ -18,11 +21,16 @@ const router = createBrowserRouter([
       {
         path: '/menu',
         element: <MenuPage />,
-        loader: async () => await getMenu()
+        loader: async () => await getMenu(),
+        errorElement: <ErrorIndexPage />
       },
       {
         path: '/cart',
         element: <CartPage />
+      },
+      {
+        path: '*',
+        element: <Error404Page />
       }
     ]
   }
