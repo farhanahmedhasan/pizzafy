@@ -1,10 +1,10 @@
 interface IMenuItem {
   id: number
   name: string
-  image: string
+  imageUrl: string
   ingredients: string[]
-  price: number
-  isAvailable: boolean
+  unitPrice: number
+  soldOut: boolean
 }
 
 export default IMenuItem

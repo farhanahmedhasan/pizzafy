@@ -14,8 +14,8 @@ export default function MenuPage() {
       <h3>Menu Page</h3>
 
       <ul>
-        {menu.map((item: IMenuItem) => {
-          return <MenuItem key={item.id} menu={item} />
+        {menu.map((pizza: IMenuItem) => {
+          return <MenuItem key={pizza.id} menu={pizza} />
         })}
       </ul>
     </div>
