@@ -1,3 +1,23 @@
+import { Link, useLoaderData } from 'react-router'
+
+import IMenuItem from '../../types/menu-item'
+import MenuItem from './partials/MenuItem'
+
 export default function MenuPage() {
-  return <div>MenuPage</div>
+  const menu = useLoaderData()
+
+  console.log(menu)
+
+  return (
+    <div>
+      <Link to={'/cart'}>GO Back to Cart</Link>
+      <h3>Menu Page</h3>
+
+      <ul>
+        {menu.map((item: IMenuItem) => {
+          return <MenuItem key={item.id} menu={item} />
+        })}
+      </ul>
+    </div>
+  )
 }
