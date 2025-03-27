@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router'
 
-export default function Error404Page() {
+interface IProps {
+  message?: string
+}
+
+export default function Error404Page(props: IProps) {
   const url = window.location.pathname
   const navigate = useNavigate()
 
@@ -10,7 +14,7 @@ export default function Error404Page() {
       <p className="text-2xl font-semibold text-gray-800 mb-2">Oops! This slice is missing.</p>
       <p className="text-lg text-gray-600 mb-10">The page you&apos;re looking for might have been eaten.</p>
 
-      <p className="text-sm text-red-600 mb-12">{url} this slice doesn't exists</p>
+      <p className="text-sm text-red-600 mb-12">{props.message || `${url} this slice doesn't exists`}</p>
 
       <img
         src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png"
