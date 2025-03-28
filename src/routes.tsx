@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router'
 
+import OrderCreatePage from './pages/order-page/OrderCreatePage'
 import ErrorIndexPage from './pages/error-page/ErrorIndexPage'
 import { getMenu, getOrder } from './services/apiRestaurant'
 import OrderShowPage from './pages/order-page/OrderShowPage'
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: '/cart',
         element: <CartPage />
+      },
+      {
+        path: '/order/new',
+        element: <OrderCreatePage />
       },
       {
         path: '/order/:OrderId',
