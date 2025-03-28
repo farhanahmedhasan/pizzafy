@@ -1,4 +1,6 @@
-import { Form } from 'react-router'
+import { Form, redirect } from 'react-router'
+
+import { createOrder } from '../../services/apiRestaurant'
 
 const fakeCart = [
   {
@@ -47,8 +49,10 @@ export default function OrderCreatePage() {
           <input type="text" name="address" id="address" required />
         </div>
 
+        <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+
         <div>
-          <input type="checkbox" name="priority" id="priority" required />
+          <input type="checkbox" name="priority" id="priority" />
           <label htmlFor="priority">Want to give your order priority?</label>
         </div>
 
@@ -58,4 +62,18 @@ export default function OrderCreatePage() {
       </Form>
     </div>
   )
+}
+
+export async function clientCreateOrderAction({ request }) {
+  const data = Object.fromEntries(await request.formData())
+
+  const order = {
+    ...data,
+    cart: JSON.parse(data.cart),
+    priority: data.priority === 'on'
+  }
+
+  const newOrder = await createOrder(order)
+
+  return redirect(`/order/${newOrder.id}`)
 }
