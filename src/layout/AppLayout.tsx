@@ -7,12 +7,12 @@ import Spinner from './Spinner'
 export default function AppLayout() {
   const navigation = useNavigation()
   return (
-    <div>
+    <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       <AppLayoutHeader />
 
       {navigation.state === 'loading' && <Spinner />}
 
-      <main>
+      <main className="overflow-y-auto">
         <Outlet />
       </main>
       <AppLayoutCartOverview />
