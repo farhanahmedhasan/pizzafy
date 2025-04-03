@@ -8,7 +8,7 @@ export default function AppLayoutCartOverview() {
         <span>$23.34</span>
       </p>
 
-      <Link to="">Open cart &rarr;</Link>
+      <Link to="/cart">Open cart &rarr;</Link>
     </div>
   )
 }

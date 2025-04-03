@@ -51,18 +51,32 @@ export default function OrderCreatePage() {
 
         <div>
           <label htmlFor="address">Address</label>
-          <input type="text" name="address" id="address" required />
+          <input
+            className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus:outline-0 focus:ring focus:ring-yellow-400 md:px-6 md:py-3"
+            type="text"
+            name="address"
+            id="address"
+            required
+          />
         </div>
 
         <input type="hidden" name="cart" value={JSON.stringify(cart)} />
 
-        <div>
-          <input type="checkbox" name="priority" id="priority" />
+        <div className="flex items-center gap-x-2">
+          <input
+            className="h-6 w-6 accent-yellow-400 focus:outline-0 focus:ring focus:ring-offset-2 focus:ring-yellow-400"
+            type="checkbox"
+            name="priority"
+            id="priority"
+          />
           <label htmlFor="priority">Want to give your order priority?</label>
         </div>
 
         <div>
-          <button disabled={navigation === 'submitting'}>
+          <button
+            disabled={navigation === 'submitting'}
+            className="bg-yellow-400 text-stone-800 tracking-wide font-semibold uppercase px-4 py-3 rounded-full cursor-pointer transition-all hover:bg-yellow-500 focus:outline-0 focus:ring focus:ring-yellow-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+          >
             {navigation === 'submitting' ? 'Placing Order' : 'Order Now'}
           </button>
         </div>
