@@ -3,7 +3,7 @@ import Button from '../../components/ui/Button'
 export default function CartPage() {
   return (
     <div>
-      <Button variant="link" href="/menu">
+      <Button href="/menu" variant="link" size="none">
         &larr; Back to menu
       </Button>
       <h2>Your cart, %NAME%</h2>

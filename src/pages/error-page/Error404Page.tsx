@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router'
+
 import Button from '../../components/ui/Button'
 
 interface IProps {
@@ -6,6 +8,7 @@ interface IProps {
 
 export default function Error404Page(props: IProps) {
   const url = window.location.pathname
+  const navigate = useNavigate()
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-yellow-50 text-center p-6">
@@ -21,7 +24,7 @@ export default function Error404Page(props: IProps) {
         className="w-32 drop-shadow-lg animate-bounce"
       />
 
-      <Button href="-1">Go Back 🍕</Button>
+      <Button onClick={() => navigate(-1)}>Go Back 🍕</Button>
     </div>
   )
 }
