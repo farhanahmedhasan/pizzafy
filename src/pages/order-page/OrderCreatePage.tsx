@@ -3,6 +3,7 @@ import { useActionData } from 'react-router'
 
 import { createOrder } from '../../services/apiRestaurant'
 import { isValidPhone } from '../../utils/helpers'
+import Button from '../../components/ui/Button'
 
 const fakeCart = [
   {
@@ -40,19 +41,31 @@ export default function OrderCreatePage() {
       <Form method="POST">
         <div>
           <label htmlFor="customer">First Name</label>
-          <input type="text" name="customer" id="customer" required />
+          <input
+            className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
+            type="text"
+            name="customer"
+            id="customer"
+            required
+          />
         </div>
 
         <div>
           <label htmlFor="phone">Phone Number</label>
-          <input type="tel" name="phone" id="phone" required />
+          <input
+            className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
+            type="tel"
+            name="phone"
+            id="phone"
+            required
+          />
           {formErrors?.phone && <p>{formErrors.phone}</p>}
         </div>
 
         <div>
           <label htmlFor="address">Address</label>
           <input
-            className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus:outline-0 focus:ring focus:ring-yellow-400 md:px-6 md:py-3"
+            className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
             type="text"
             name="address"
             id="address"
@@ -64,7 +77,7 @@ export default function OrderCreatePage() {
 
         <div className="flex items-center gap-x-2">
           <input
-            className="h-6 w-6 accent-yellow-400 focus:outline-0 focus:ring focus:ring-offset-2 focus:ring-yellow-400"
+            className="h-6 w-6 accent-yellow-400 focus-primary focus:ring-offset-2"
             type="checkbox"
             name="priority"
             id="priority"
@@ -73,12 +86,9 @@ export default function OrderCreatePage() {
         </div>
 
         <div>
-          <button
-            disabled={navigation === 'submitting'}
-            className="bg-yellow-400 text-stone-800 tracking-wide font-semibold uppercase px-4 py-3 rounded-full cursor-pointer transition-all hover:bg-yellow-500 focus:outline-0 focus:ring focus:ring-yellow-500 focus:ring-offset-2 disabled:cursor-not-allowed"
-          >
+          <Button disabled={navigation === 'submitting'}>
             {navigation === 'submitting' ? 'Placing Order' : 'Order Now'}
-          </button>
+          </Button>
         </div>
       </Form>
     </div>

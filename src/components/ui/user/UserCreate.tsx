@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Button from '../Button'
 
 export default function UserCreate() {
   const [username, setUsername] = useState<string>('')
@@ -12,7 +13,7 @@ export default function UserCreate() {
       <p className="text-stone-600 text-sm mb-4 md:text-base">👋 welcome! Please start by telling us your name:</p>
 
       <input
-        className="w-72"
+        className="w-72 mb-8"
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
@@ -21,7 +22,7 @@ export default function UserCreate() {
 
       {username !== '' && (
         <div>
-          <button>Start Ordering</button>
+          <Button>Start Ordering</Button>
         </div>
       )}
     </form>

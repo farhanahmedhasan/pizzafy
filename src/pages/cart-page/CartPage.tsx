@@ -1,15 +1,15 @@
-import { Link } from 'react-router'
+import Button from '../../components/ui/Button'
 
 export default function CartPage() {
   return (
     <div>
-      <Link to="/menu" className="text-sm text-blue-500 hover:text-blue-600 hover:underline">
+      <Button variant="link" href="/menu">
         &larr; Back to menu
-      </Link>
+      </Button>
       <h2>Your cart, %NAME%</h2>
 
       <div>
-        <Link to="/order/new">Order Pizzas</Link>
+        <Button href="/order/new">Order Pizzas</Button>
         <button>Clear cart</button>
       </div>
     </div>

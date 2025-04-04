@@ -1,4 +1,4 @@
-import UserCreate from '../../components/ui/user/userCreate'
+import UserCreate from '../../components/ui/user/UserCreate'
 
 export default function Homepage() {
   return (
