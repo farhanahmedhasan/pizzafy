@@ -35,12 +35,14 @@ export default function OrderCreatePage() {
   const cart = fakeCart
 
   return (
-    <div className="max-w-3xl mx-auto my-10">
-      <h2>Ready to order? Let's go!</h2>
+    <section className="px-4 py-6 max-w-3xl mx-auto">
+      <h2 className="text-xl font-semibold mb-8">Ready to order? Let's go!</h2>
 
       <Form method="POST">
-        <div>
-          <label htmlFor="customer">First Name</label>
+        <div className="mb-5 flex flex-col gap-2">
+          <label className="shrink-0" htmlFor="customer">
+            First Name
+          </label>
           <input
             className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
             type="text"
@@ -50,7 +52,7 @@ export default function OrderCreatePage() {
           />
         </div>
 
-        <div>
+        <div className="mb-5 flex flex-col gap-2">
           <label htmlFor="phone">Phone Number</label>
           <input
             className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
@@ -59,10 +61,10 @@ export default function OrderCreatePage() {
             id="phone"
             required
           />
-          {formErrors?.phone && <p>{formErrors.phone}</p>}
+          {formErrors?.phone && <p className="text-xs text-red-600 ml-4">{formErrors.phone}</p>}
         </div>
 
-        <div>
+        <div className="mb-5 flex flex-col gap-2">
           <label htmlFor="address">Address</label>
           <input
             className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
@@ -82,16 +84,18 @@ export default function OrderCreatePage() {
             name="priority"
             id="priority"
           />
-          <label htmlFor="priority">Want to give your order priority?</label>
+          <label className="font-medium" htmlFor="priority">
+            Want to give your order priority?
+          </label>
         </div>
 
-        <div>
+        <div className="mt-8">
           <Button disabled={navigation === 'submitting'}>
             {navigation === 'submitting' ? 'Placing Order' : 'Order Now'}
           </Button>
         </div>
       </Form>
-    </div>
+    </section>
   )
 }
 

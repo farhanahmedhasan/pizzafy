@@ -5,7 +5,7 @@ import React from 'react'
 import { cn } from '../../utils/helpers'
 
 const buttonVariants = cva(
-  'inline-flex font-semibold transition-all cursor-pointer focus:outline-0 focus:ring disabled:cursor-not-allowed',
+  'inline-flex text-sm font-semibold transition-all cursor-pointer focus:outline-0 focus:ring disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
@@ -13,7 +13,7 @@ const buttonVariants = cva(
           'bg-yellow-400 text-stone-800 tracking-wide uppercase hover:bg-yellow-500 focus:ring-offset-2 focus:ring-yellow-500',
         secondary:
           'text-stone-600 tracking-wide uppercase border-2 border-stone-200 hover:text-stone-700 hover:bg-stone-300 focus:ring-2 focus:text-800 focus:bg-stone-300 focus:ring-stone-300',
-        link: 'text-sm text-blue-500 hover:text-blue-600 hover:underline focus:ring-0'
+        link: 'text-blue-500 hover:text-blue-600 hover:underline focus:ring-0'
       },
       size: {
         primary: 'px-4 py-3 rounded-full sm:px-6 sm:py-4',
