@@ -1,6 +1,8 @@
 import { Form, redirect, useNavigation } from 'react-router'
 import { useActionData } from 'react-router'
 
+import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
+import { Label } from '../../components/form/partials/Label'
 import { createOrder } from '../../services/apiRestaurant'
 import { isValidPhone } from '../../utils/helpers'
 import Button from '../../components/ui/Button'
@@ -40,9 +42,7 @@ export default function OrderCreatePage() {
 
       <Form method="POST">
         <div className="mb-5 flex flex-col gap-2">
-          <label className="shrink-0" htmlFor="customer">
-            First Name
-          </label>
+          <Label htmlFor="customer">First Name</Label>
           <input
             className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
             type="text"
@@ -53,7 +53,7 @@ export default function OrderCreatePage() {
         </div>
 
         <div className="mb-5 flex flex-col gap-2">
-          <label htmlFor="phone">Phone Number</label>
+          <Label htmlFor="phone">Phone Number</Label>
           <input
             className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
             type="tel"
@@ -61,11 +61,11 @@ export default function OrderCreatePage() {
             id="phone"
             required
           />
-          {formErrors?.phone && <p className="text-xs text-red-600 ml-4">{formErrors.phone}</p>}
+          {formErrors?.phone && <FormErrorPartial message={formErrors.phone} />}
         </div>
 
         <div className="mb-5 flex flex-col gap-2">
-          <label htmlFor="address">Address</label>
+          <Label htmlFor="address">Address</Label>
           <input
             className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
             type="text"
@@ -84,9 +84,9 @@ export default function OrderCreatePage() {
             name="priority"
             id="priority"
           />
-          <label className="font-medium" htmlFor="priority">
+          <Label className="font-medium" htmlFor="priority">
             Want to give your order priority?
-          </label>
+          </Label>
         </div>
 
         <div className="mt-8">
