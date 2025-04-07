@@ -7,7 +7,7 @@ export default function MenuPage() {
   const menu = useLoaderData()
 
   return (
-    <ul className="divide-y divide-stone-200 px-2">
+    <ul className="divide-y divide-stone-200 px-4 py-2">
       {menu.map((pizza: IMenuItem) => {
         return <MenuItem key={pizza.id} menu={pizza} />
       })}
