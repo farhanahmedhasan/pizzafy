@@ -6,7 +6,6 @@ import OrderItem from './partials/OrderItem'
 
 export default function OrderShowPage() {
   const order = useLoaderData()
-  console.log(order)
 
   return (
     <section className="space-y-8 px-4 py-6">
