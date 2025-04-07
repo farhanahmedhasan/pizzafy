@@ -11,17 +11,13 @@ const buttonVariants = cva(
       variant: {
         primary:
           'bg-yellow-400 text-stone-800 tracking-wide uppercase hover:bg-yellow-500 focus:ring-offset-2 focus:ring-yellow-500',
-        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-        outline: 'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-sm text-blue-500 hover:text-blue-600 hover:underline focus:ring-0'
       },
       size: {
         primary: 'px-4 py-3 rounded-full sm:px-6 sm:py-4',
-        sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-10 rounded-md px-8',
-        icon: 'h-9 w-9',
+        sm: 'rounded-md px-3 text-xs',
+        lg: 'rounded-md px-8',
+        icon: 'py-2 px-6',
         none: ''
       }
     },
