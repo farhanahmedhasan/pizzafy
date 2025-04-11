@@ -1,5 +1,8 @@
+import { useSelector } from 'react-redux'
+
 import Button from '../../components/ui/Button'
 import CartItem from './partials/CartItem'
+import { RootState } from '../../store'
 
 const fakeCart = [
   {
@@ -26,14 +29,16 @@ const fakeCart = [
 ]
 
 export default function CartPage() {
+  const username = useSelector((state: RootState) => state.user.username)
   const cart = fakeCart
+
   return (
     <section className="px-4 py-3">
       <Button href="/menu" variant="link" size="none">
         &larr; Back to menu
       </Button>
 
-      <h2 className="text-xl font-semibold mt-7">Your cart, %NAME%</h2>
+      <h2 className="text-xl font-semibold mt-7">Your cart, {username}</h2>
 
       <ul className="mt-2">
         {cart.map((item) => (

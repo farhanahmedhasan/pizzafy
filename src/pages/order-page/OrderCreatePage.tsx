@@ -1,11 +1,13 @@
 import { Form, redirect, useNavigation } from 'react-router'
 import { useActionData } from 'react-router'
+import { useSelector } from 'react-redux'
 
 import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
 import { Label } from '../../components/form/partials/Label'
 import { createOrder } from '../../services/apiRestaurant'
 import { isValidPhone } from '../../utils/helpers'
 import Button from '../../components/ui/Button'
+import { RootState } from '../../store'
 
 const fakeCart = [
   {
@@ -34,6 +36,7 @@ const fakeCart = [
 export default function OrderCreatePage() {
   const formErrors = useActionData()
   const navigation = useNavigation().state
+  const username = useSelector((state: RootState) => state.user.username)
   const cart = fakeCart
 
   return (
@@ -48,6 +51,7 @@ export default function OrderCreatePage() {
             type="text"
             name="customer"
             id="customer"
+            defaultValue={username}
             required
           />
         </div>
