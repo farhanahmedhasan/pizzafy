@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getCart, resetCart } from '../../features/cart/cartSlice'
+import { getUsername } from '../../features/user/userSlice'
 import Button from '../../components/ui/Button'
 import CartItem from './partials/CartItem'
-import { RootState } from '../../store'
 
 export default function CartPage() {
-  const username = useSelector((state: RootState) => state.user.username)
+  const username = useSelector(getUsername)
   const cart = useSelector(getCart)
   const dispatch = useDispatch()
 
