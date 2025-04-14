@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 
-import { removeItem } from '../../../features/cart/cartSlice'
+import { decreaseItemQuantity, increaseItemQuantity, removeItem } from '../../../features/cart/cartSlice'
 import { formatCurrency } from '../../../utils/helpers'
 import Button from '../../../components/ui/Button'
 import ICartItem from '../../../types/cart-item'
@@ -20,9 +20,21 @@ export default function CartItem(props: IProps) {
         <p className="self-end md:self-center text-sm font-bold">
           {formatCurrency(props.cartItem.quantity * props.cartItem.unitPrice)}
         </p>
-        <Button size="sm" onClick={() => dispatch(removeItem(props.cartItem.pizzaId))}>
-          Delete
-        </Button>
+        <div className="flex gap-4">
+          <Button size="sm" onClick={() => dispatch(increaseItemQuantity(props.cartItem.pizzaId))}>
+            +
+          </Button>
+          <Button
+            size="sm"
+            disabled={props.cartItem.quantity === 1}
+            onClick={() => dispatch(decreaseItemQuantity(props.cartItem.pizzaId))}
+          >
+            -
+          </Button>
+          <Button size="sm" variant="destroy" onClick={() => dispatch(removeItem(props.cartItem.pizzaId))}>
+            Delete
+          </Button>
+        </div>
       </div>
     </li>
   )
