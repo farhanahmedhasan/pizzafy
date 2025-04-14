@@ -1,6 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { addItem, getItemById, removeItem } from '../../../features/cart/cartSlice'
+import {
+  addItem,
+  decreaseItemQuantity,
+  getItemById,
+  increaseItemQuantity,
+  removeItem
+} from '../../../features/cart/cartSlice'
 import { cn, formatCurrency } from '../../../utils/helpers'
 import Button from '../../../components/ui/Button'
 import IMenuItem from '../../../types/menu-item'
@@ -49,9 +55,28 @@ export default function MenuItem(props: IProps) {
           )}
 
           {!props.menu.soldOut && (
-            <Button size="sm" onClick={togglAddRemoveCartItem}>
-              {existingItem ? 'Remove from cart' : 'Add to cart'}
-            </Button>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
+                <Button
+                  size="sm"
+                  disabled={existingItem?.quantity === 1 || !existingItem}
+                  onClick={() => existingItem && dispatch(decreaseItemQuantity(existingItem.pizzaId))}
+                >
+                  -
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => existingItem && dispatch(increaseItemQuantity(existingItem.pizzaId))}
+                  disabled={!existingItem}
+                >
+                  +
+                </Button>
+              </div>
+
+              <Button size="sm" onClick={togglAddRemoveCartItem} className="w-42 flex justify-center">
+                {existingItem ? 'Remove from cart' : 'Add to cart'}
+              </Button>
+            </div>
           )}
         </div>
       </div>
