@@ -1,27 +1,34 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { addItem, getCart, removeItem } from '../../../features/cart/cartSlice'
 import { cn, formatCurrency } from '../../../utils/helpers'
-import { addItem } from '../../../features/cart/cartSlice'
 import Button from '../../../components/ui/Button'
 import IMenuItem from '../../../types/menu-item'
-import ICartItem from '../../../types/cart-item'
 
 interface IProps {
   menu: IMenuItem
 }
 
 export default function MenuItem(props: IProps) {
+  const cart = useSelector(getCart)
   const dispatch = useDispatch()
 
-  function addToCart() {
-    const cartItem: ICartItem = {
-      pizzaId: props.menu.id,
-      name: props.menu.name,
-      unitPrice: props.menu.unitPrice,
-      quantity: 1
-    }
+  const existingItem = cart.find((item) => item.pizzaId === props.menu.id)
+  console.log(existingItem)
 
-    dispatch(addItem(cartItem))
+  function togglAddRemoveCartItem() {
+    if (existingItem) {
+      dispatch(removeItem(props.menu.id))
+    } else {
+      dispatch(
+        addItem({
+          pizzaId: props.menu.id,
+          name: props.menu.name,
+          unitPrice: props.menu.unitPrice,
+          quantity: 1
+        })
+      )
+    }
   }
 
   return (
@@ -45,8 +52,8 @@ export default function MenuItem(props: IProps) {
           )}
 
           {!props.menu.soldOut && (
-            <Button size="sm" onClick={addToCart}>
-              Add to cart
+            <Button size="sm" onClick={togglAddRemoveCartItem}>
+              {existingItem ? 'Remove from cart' : 'Add to cart'}
             </Button>
           )}
         </div>
