@@ -4,33 +4,9 @@ import Button from '../../components/ui/Button'
 import CartItem from './partials/CartItem'
 import { RootState } from '../../store'
 
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: 'Mediterranean',
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32
-  },
-  {
-    pizzaId: 6,
-    name: 'Vegetale',
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13
-  },
-  {
-    pizzaId: 11,
-    name: 'Spinach and Mushroom',
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15
-  }
-]
-
 export default function CartPage() {
   const username = useSelector((state: RootState) => state.user.username)
-  const cart = fakeCart
+  const cart = useSelector((state: RootState) => state.cart.cart)
 
   return (
     <section className="px-4 py-3">
@@ -42,7 +18,7 @@ export default function CartPage() {
 
       <ul className="mt-2">
         {cart.map((item) => (
-          <CartItem key={item.pizzaId} item={item} />
+          <CartItem key={item.pizzaId} cartItem={item} />
         ))}
       </ul>
 

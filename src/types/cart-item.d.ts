@@ -3,7 +3,6 @@ interface ICartItem {
   name: string
   quantity: number
   unitPrice: number
-  totalPrice: number
 }
 
 export default ICartItem
