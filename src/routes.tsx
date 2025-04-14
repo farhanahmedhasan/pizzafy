@@ -9,6 +9,7 @@ import Homepage from './pages/home-page/Homepage'
 import MenuPage from './pages/menu-page/MenuPage'
 import CartPage from './pages/cart-page/CartPage'
 import AppLayout from './layout/AppLayout'
+import Spinner from './layout/Spinner'
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,8 @@ const router = createBrowserRouter([
         path: '/menu',
         element: <MenuPage />,
         loader: async () => await getMenu(),
-        errorElement: <ErrorIndexPage />
+        errorElement: <ErrorIndexPage />,
+        hydrateFallbackElement: <Spinner />
       },
       {
         path: '/cart',
