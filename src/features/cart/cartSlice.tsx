@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import ICartItem from '../../types/cart-item'
+import { RootState } from '../../store'
 
 interface ICart {
   cart: ICartItem[]
@@ -46,3 +47,12 @@ const cartSlice = createSlice({
 
 export const { addItem, removeItem, increaseItemQuantity, decreaseItemQuantity, resetCart } = cartSlice.actions
 export default cartSlice.reducer
+
+// derived states from cart
+export const getTotalPrice = (state: RootState): number => {
+  return state.cart.cart.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0)
+}
+
+export const getTotalPizzas = (state: RootState): number => {
+  return state.cart.cart.reduce((sum, item) => sum + item.quantity, 0)
+}
