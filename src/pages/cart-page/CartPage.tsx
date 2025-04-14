@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { resetCart } from '../../features/cart/cartSlice'
 import Button from '../../components/ui/Button'
 import CartItem from './partials/CartItem'
 import { RootState } from '../../store'
@@ -7,6 +8,7 @@ import { RootState } from '../../store'
 export default function CartPage() {
   const username = useSelector((state: RootState) => state.user.username)
   const cart = useSelector((state: RootState) => state.cart.cart)
+  const dispatch = useDispatch()
 
   return (
     <section className="px-4 py-3">
@@ -24,7 +26,7 @@ export default function CartPage() {
 
       <div className="mt-6 space-x-2">
         <Button href="/order/new">Order Pizzas</Button>
-        <Button variant="secondary" className="py-2.5 sm:py-3.5">
+        <Button variant="secondary" className="py-2.5 sm:py-3.5" onClick={() => dispatch(resetCart())}>
           Clear cart
         </Button>
       </div>
