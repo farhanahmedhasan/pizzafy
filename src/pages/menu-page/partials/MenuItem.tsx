@@ -18,8 +18,7 @@ export default function MenuItem(props: IProps) {
       pizzaId: props.menu.id,
       name: props.menu.name,
       unitPrice: props.menu.unitPrice,
-      quantity: 1,
-      totalPrice: props.menu.unitPrice * 1
+      quantity: 1
     }
 
     dispatch(addItem(cartItem))
