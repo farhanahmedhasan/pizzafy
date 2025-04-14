@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { addItem, getCart, removeItem } from '../../../features/cart/cartSlice'
+import { addItem, getItemById, removeItem } from '../../../features/cart/cartSlice'
 import { cn, formatCurrency } from '../../../utils/helpers'
 import Button from '../../../components/ui/Button'
 import IMenuItem from '../../../types/menu-item'
@@ -10,11 +10,8 @@ interface IProps {
 }
 
 export default function MenuItem(props: IProps) {
-  const cart = useSelector(getCart)
+  const existingItem = useSelector(getItemById(props.menu.id))
   const dispatch = useDispatch()
-
-  const existingItem = cart.find((item) => item.pizzaId === props.menu.id)
-  console.log(existingItem)
 
   function togglAddRemoveCartItem() {
     if (existingItem) {

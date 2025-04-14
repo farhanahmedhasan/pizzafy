@@ -55,6 +55,8 @@ export default cartSlice.reducer
 // derived states from cart
 export const getCart = (state: RootState) => state.cart.cart
 
+export const getItemById = (id: number) => (state: RootState) => state.cart.cart.find((item) => item.pizzaId === id)
+
 export const getTotalPrice = (state: RootState): number => {
   return state.cart.cart.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0)
 }
