@@ -1,12 +1,30 @@
+import { useDispatch } from 'react-redux'
+
 import { cn, formatCurrency } from '../../../utils/helpers'
-import IMenuItem from '../../../types/menu-item'
+import { addItem } from '../../../features/cart/cartSlice'
 import Button from '../../../components/ui/Button'
+import IMenuItem from '../../../types/menu-item'
+import ICartItem from '../../../types/cart-item'
 
 interface IProps {
   menu: IMenuItem
 }
 
 export default function MenuItem(props: IProps) {
+  const dispatch = useDispatch()
+
+  function addToCart() {
+    const cartItem: ICartItem = {
+      pizzaId: props.menu.id,
+      name: props.menu.name,
+      unitPrice: props.menu.unitPrice,
+      quantity: 1,
+      totalPrice: props.menu.unitPrice * 1
+    }
+
+    dispatch(addItem(cartItem))
+  }
+
   return (
     <li className="flex gap-4 py-2">
       <img
@@ -27,7 +45,11 @@ export default function MenuItem(props: IProps) {
             <p className="text-stone-500">Sold Out</p>
           )}
 
-          <Button size="sm">Add to cart</Button>
+          {!props.menu.soldOut && (
+            <Button size="sm" onClick={addToCart}>
+              Add to cart
+            </Button>
+          )}
         </div>
       </div>
     </li>
