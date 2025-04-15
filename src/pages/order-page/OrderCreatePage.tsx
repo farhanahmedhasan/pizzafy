@@ -1,4 +1,4 @@
-import { Form, redirect, useNavigation } from 'react-router'
+import { ActionFunctionArgs, Form, redirect, useNavigation } from 'react-router'
 import { useActionData } from 'react-router'
 import { useSelector } from 'react-redux'
 
@@ -6,38 +6,16 @@ import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
 import { Label } from '../../components/form/partials/Label'
 import { getUsername } from '../../features/user/userSlice'
 import { createOrder } from '../../services/apiRestaurant'
+import { getCart } from '../../features/cart/cartSlice'
 import { isValidPhone } from '../../utils/helpers'
 import Button from '../../components/ui/Button'
-
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: 'Mediterranean',
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32
-  },
-  {
-    pizzaId: 6,
-    name: 'Vegetale',
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13
-  },
-  {
-    pizzaId: 11,
-    name: 'Spinach and Mushroom',
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15
-  }
-]
+import IOrder from '../../types/order'
 
 export default function OrderCreatePage() {
   const formErrors = useActionData()
   const navigation = useNavigation().state
   const username = useSelector(getUsername)
-  const cart = fakeCart
+  const cart = useSelector(getCart)
 
   return (
     <section className="px-4 py-6 max-w-3xl mx-auto">
@@ -103,16 +81,19 @@ export default function OrderCreatePage() {
   )
 }
 
-export async function clientCreateOrderAction({ request }) {
-  const data = Object.fromEntries(await request.formData())
+// eslint-disable-next-line react-refresh/only-export-components
+export async function clientCreateOrderAction({ request }: ActionFunctionArgs) {
+  const data = Object.fromEntries(await request.formData()) as Record<string, string>
 
-  const order = {
-    ...data,
+  const order: IOrder = {
+    name: data.customer,
+    phone: data.phone,
+    address: data.address,
     cart: JSON.parse(data.cart),
     priority: data.priority === 'on'
   }
 
-  const errors = {}
+  const errors: Record<string, string> = {}
 
   if (!isValidPhone(order.phone)) errors.phone = 'Please enter your valid phone number'
 
