@@ -3,11 +3,11 @@ import { useActionData } from 'react-router'
 import { useSelector } from 'react-redux'
 
 import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
+import { getCart, getTotalPrice } from '../../features/cart/cartSlice'
+import { formatCurrency, isValidPhone } from '../../utils/helpers'
 import { Label } from '../../components/form/partials/Label'
 import { getUsername } from '../../features/user/userSlice'
 import { createOrder } from '../../services/apiRestaurant'
-import { getCart } from '../../features/cart/cartSlice'
-import { isValidPhone } from '../../utils/helpers'
 import Button from '../../components/ui/Button'
 import IOrder from '../../types/order'
 
@@ -16,6 +16,7 @@ export default function OrderCreatePage() {
   const navigation = useNavigation().state
   const username = useSelector(getUsername)
   const cart = useSelector(getCart)
+  const totalPrice = useSelector(getTotalPrice)
 
   return (
     <section className="px-4 py-6 max-w-3xl mx-auto">
@@ -73,9 +74,10 @@ export default function OrderCreatePage() {
 
         <div className="mt-8">
           <Button disabled={navigation === 'submitting'}>
-            {navigation === 'submitting' ? 'Placing Order' : 'Order Now'}
+            {navigation === 'submitting' ? 'Placing Order' : `Order Now for ${formatCurrency(totalPrice)}`}
           </Button>
         </div>
+        <FormErrorPartial message={formErrors?.cart} className="mt-10" />
       </Form>
     </section>
   )
@@ -84,19 +86,23 @@ export default function OrderCreatePage() {
 // eslint-disable-next-line react-refresh/only-export-components
 export async function clientCreateOrderAction({ request }: ActionFunctionArgs) {
   const data = Object.fromEntries(await request.formData()) as Record<string, string>
+  const errors: Record<string, string> = {}
 
   const order: IOrder = {
-    name: data.customer,
+    customer: data.customer,
     phone: data.phone,
     address: data.address,
     cart: JSON.parse(data.cart),
     priority: data.priority === 'on'
   }
 
-  const errors: Record<string, string> = {}
+  console.log(order)
+  return null
 
+  if (!order.cart.length) {
+    errors.cart = 'Please add item to the cart before placing an order'
+  }
   if (!isValidPhone(order.phone)) errors.phone = 'Please enter your valid phone number'
-
   if (Object.keys(errors).length > 0) return errors
 
   const newOrder = await createOrder(order)

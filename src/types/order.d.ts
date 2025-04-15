@@ -1,7 +1,7 @@
 import ICartItem from './cart-item'
 
 interface IOrder {
-  name: string
+  customer: string
   phone: string
   address: string
   priority: boolean
