@@ -1,22 +1,28 @@
 import { ActionFunctionArgs, Form, redirect, useNavigation } from 'react-router'
 import { useActionData } from 'react-router'
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
-import { getCart, getTotalPrice } from '../../features/cart/cartSlice'
+import { getCart, getTotalPrice, resetCart } from '../../features/cart/cartSlice'
 import { formatCurrency, isValidPhone } from '../../utils/helpers'
 import { Label } from '../../components/form/partials/Label'
 import { getUsername } from '../../features/user/userSlice'
 import { createOrder } from '../../services/apiRestaurant'
 import Button from '../../components/ui/Button'
 import IOrder from '../../types/order'
+import store from '../../store'
 
 export default function OrderCreatePage() {
+  const [hasPriority, setHasPriority] = useState<boolean>(false)
+
   const formErrors = useActionData()
   const navigation = useNavigation().state
   const username = useSelector(getUsername)
   const cart = useSelector(getCart)
-  const totalPrice = useSelector(getTotalPrice)
+  const totalCartPrice = useSelector(getTotalPrice)
+
+  const finalPrice = hasPriority ? totalCartPrice + totalCartPrice * 0.2 : totalCartPrice
 
   return (
     <section className="px-4 py-6 max-w-3xl mx-auto">
@@ -66,6 +72,7 @@ export default function OrderCreatePage() {
             type="checkbox"
             name="priority"
             id="priority"
+            onChange={() => setHasPriority((prev) => !prev)}
           />
           <Label className="font-medium" htmlFor="priority">
             Want to give your order priority?
@@ -74,7 +81,7 @@ export default function OrderCreatePage() {
 
         <div className="mt-8">
           <Button disabled={navigation === 'submitting'}>
-            {navigation === 'submitting' ? 'Placing Order' : `Order Now for ${formatCurrency(totalPrice)}`}
+            {navigation === 'submitting' ? 'Placing Order' : `Order Now for ${formatCurrency(finalPrice)}`}
           </Button>
         </div>
         <FormErrorPartial message={formErrors?.cart} className="mt-10" />
@@ -96,9 +103,6 @@ export async function clientCreateOrderAction({ request }: ActionFunctionArgs) {
     priority: data.priority === 'on'
   }
 
-  console.log(order)
-  return null
-
   if (!order.cart.length) {
     errors.cart = 'Please add item to the cart before placing an order'
   }
@@ -106,6 +110,8 @@ export async function clientCreateOrderAction({ request }: ActionFunctionArgs) {
   if (Object.keys(errors).length > 0) return errors
 
   const newOrder = await createOrder(order)
+
+  store.dispatch(resetCart())
 
   return redirect(`/order/${newOrder.id}`)
 }
