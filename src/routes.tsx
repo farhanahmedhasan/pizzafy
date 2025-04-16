@@ -41,7 +41,8 @@ const router = createBrowserRouter([
         path: '/order/:OrderId',
         element: <OrderShowPage />,
         loader: async ({ params }) => await getOrder(params.OrderId),
-        errorElement: <ErrorIndexPage />
+        errorElement: <ErrorIndexPage />,
+        hydrateFallbackElement: <Spinner />
       },
       {
         path: '*',

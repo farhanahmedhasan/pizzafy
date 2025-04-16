@@ -1,19 +1,31 @@
+import { useReactToPrint } from 'react-to-print'
 import { useLoaderData } from 'react-router'
+import { useRef } from 'react'
 
 import { calcMinutesLeft, formatCurrency, formatDate } from '../../utils/helpers'
-import Pill from '../../components/ui/Pill'
+import Button from '../../components/ui/Button'
 import OrderItem from './partials/OrderItem'
+import Pill from '../../components/ui/Pill'
 
 export default function OrderShowPage() {
   const order = useLoaderData()
+  const pdfRef = useRef<HTMLDivElement>(null)
+
+  const handlePrint = useReactToPrint({
+    contentRef: pdfRef,
+    documentTitle: `Order: ${order.id}`
+  })
 
   return (
-    <section className="space-y-8 px-4 py-6">
+    <section ref={pdfRef} className="space-y-8 px-4 py-6">
       <div className="flex flex-wrap gap-2 items-center justify-between">
         <h2 className="text-xl font-semibold">
           Order #{order.id}: {order.status}
         </h2>
         <div className="space-x-2">
+          <Button variant="link" size="none" onClick={() => handlePrint()}>
+            Download PDF ⬇️
+          </Button>
           {order.priority && <Pill variant="secondary">Priority</Pill>}
           <Pill>{order.status} order</Pill>
         </div>

@@ -1592,6 +1592,11 @@ react-router@^7.4.0:
     set-cookie-parser "^2.6.0"
     turbo-stream "2.4.0"
 
+react-to-print@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-to-print/-/react-to-print-3.0.6.tgz#5044f8c6603218d1869350054d805141f9e4286d"
+  integrity sha512-K/jFxkUifbfVnu1XyinM6AB6zAq0VMw0lH/6WJpkdlChoqqvEOE/BGOxYN2xOmu8f72isTTU5DNatK/j0Lfc+Q==
+
 react@^19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-19.0.0.tgz#6e1969251b9f108870aa4bff37a0ce9ddfaaabdd"
