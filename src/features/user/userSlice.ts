@@ -1,10 +1,36 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
+
 import { RootState } from '../../store'
+import getAddress from '../../services/apiGeoCoding'
 
 interface IUser {
   username: string
 }
+
+function getGeoData(): Promise<GeolocationPosition> {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, {
+      enableHighAccuracy: true
+    })
+  })
+}
+
+async function fetchAddress() {
+  const pos = await getGeoData()
+
+  const latLong = {
+    lat: pos.coords.latitude,
+    long: pos.coords.longitude
+  }
+
+  const address = await getAddress(latLong)
+  console.log(address)
+
+  return { latLong, address }
+}
+
+fetchAddress()
 
 const initialState: IUser = {
   username: ''
