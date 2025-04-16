@@ -1,17 +1,17 @@
 import { ActionFunctionArgs, Form, redirect, useNavigation } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
 import { useActionData } from 'react-router'
-import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
 import { getCart, getTotalPrice, resetCart } from '../../features/cart/cartSlice'
+import { fetchAddress, getUserAddress, getUsername } from '../../features/user/userSlice'
 import { formatCurrency, isValidPhone } from '../../utils/helpers'
 import { Label } from '../../components/form/partials/Label'
-import { getUsername } from '../../features/user/userSlice'
 import { createOrder } from '../../services/apiRestaurant'
+import store, { AppDispatch } from '../../store'
 import Button from '../../components/ui/Button'
 import IOrder from '../../types/order'
-import store from '../../store'
 
 export default function OrderCreatePage() {
   const [hasPriority, setHasPriority] = useState<boolean>(false)
@@ -19,10 +19,16 @@ export default function OrderCreatePage() {
   const formErrors = useActionData()
   const navigation = useNavigation().state
   const username = useSelector(getUsername)
+  const address = useSelector(getUserAddress)
   const cart = useSelector(getCart)
   const totalCartPrice = useSelector(getTotalPrice)
+  const dispatch = useDispatch<AppDispatch>()
 
   const finalPrice = hasPriority ? totalCartPrice + totalCartPrice * 0.2 : totalCartPrice
+
+  useEffect(() => {
+    dispatch(fetchAddress())
+  }, [dispatch])
 
   return (
     <section className="px-4 py-6 max-w-3xl mx-auto">
@@ -58,6 +64,7 @@ export default function OrderCreatePage() {
           <input
             className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
             type="text"
+            defaultValue={address}
             name="address"
             id="address"
             required

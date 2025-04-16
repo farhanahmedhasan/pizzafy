@@ -1,11 +1,14 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
 
-import { RootState } from '../../store'
 import getAddress from '../../services/apiGeoCoding'
+import { RootState } from '../../store'
 
 interface IUser {
   username: string
+  status: 'idle' | 'loading' | 'succeeded' | 'failed'
+  address: string
+  error: string
 }
 
 function getGeoData(): Promise<GeolocationPosition> {
@@ -16,7 +19,7 @@ function getGeoData(): Promise<GeolocationPosition> {
   })
 }
 
-async function fetchAddress() {
+const fetchAddress = createAsyncThunk('user/fetchAddressByCoords', async () => {
   const pos = await getGeoData()
 
   const latLong = {
@@ -25,15 +28,15 @@ async function fetchAddress() {
   }
 
   const address = await getAddress(latLong)
-  console.log(address)
 
   return { latLong, address }
-}
-
-fetchAddress()
+})
 
 const initialState: IUser = {
-  username: ''
+  username: '',
+  status: 'idle',
+  address: '',
+  error: ''
 }
 
 const userSlice = createSlice({
@@ -43,10 +46,30 @@ const userSlice = createSlice({
     updateUsername(state, action: PayloadAction<string>) {
       state.username = action.payload
     }
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(fetchAddress.pending, (state) => {
+      state.status = 'loading'
+      state.address = 'Allow location access to auto generate location'
+    })
+
+    builder.addCase(fetchAddress.fulfilled, (state, action) => {
+      state.address = action.payload.address ?? ''
+      state.status = 'succeeded'
+    })
+
+    builder.addCase(fetchAddress.rejected, (state, action) => {
+      state.status = 'failed'
+      state.error = action.error.message ?? ''
+      state.address = ''
+    })
   }
 })
 
 export const { updateUsername } = userSlice.actions
+export { fetchAddress }
 export default userSlice.reducer
 
 export const getUsername = (state: RootState) => state.user.username
+export const getUserAddress = (state: RootState) => state.user.address
