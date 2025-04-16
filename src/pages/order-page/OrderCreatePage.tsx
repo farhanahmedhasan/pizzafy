@@ -1,11 +1,17 @@
 import { ActionFunctionArgs, Form, redirect, useNavigation } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActionData } from 'react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
+import {
+  fetchAddress,
+  getAddressError,
+  getAddressStatus,
+  getUserAddress,
+  getUsername
+} from '../../features/user/userSlice'
 import { getCart, getTotalPrice, resetCart } from '../../features/cart/cartSlice'
-import { fetchAddress, getUserAddress, getUsername } from '../../features/user/userSlice'
+import FormErrorPartial from '../../components/form/partials/FormErrorPartial'
 import { formatCurrency, isValidPhone } from '../../utils/helpers'
 import { Label } from '../../components/form/partials/Label'
 import { createOrder } from '../../services/apiRestaurant'
@@ -20,15 +26,13 @@ export default function OrderCreatePage() {
   const navigation = useNavigation().state
   const username = useSelector(getUsername)
   const address = useSelector(getUserAddress)
+  const addressStatus = useSelector(getAddressStatus)
+  const addressError = useSelector(getAddressError)
   const cart = useSelector(getCart)
   const totalCartPrice = useSelector(getTotalPrice)
   const dispatch = useDispatch<AppDispatch>()
 
   const finalPrice = hasPriority ? totalCartPrice + totalCartPrice * 0.2 : totalCartPrice
-
-  useEffect(() => {
-    dispatch(fetchAddress())
-  }, [dispatch])
 
   return (
     <section className="px-4 py-6 max-w-3xl mx-auto">
@@ -61,14 +65,29 @@ export default function OrderCreatePage() {
 
         <div className="mb-5 flex flex-col gap-2">
           <Label htmlFor="address">Address</Label>
-          <input
-            className="w-full border border-stone-200 px-4 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:px-6 md:py-3"
-            type="text"
-            defaultValue={address}
-            name="address"
-            id="address"
-            required
-          />
+          <div className="relative">
+            <input
+              className="w-full border border-stone-200 pl-4 pr-32 py-2 text-sm transition-all rounded-full placeholder:text-stone-400 focus-primary md:pl-6 md:pr-36 md:py-3"
+              type="text"
+              defaultValue={address}
+              name="address"
+              id="address"
+              required
+            />
+            {addressStatus !== 'succeeded' && addressStatus !== 'failed' && (
+              <Button
+                className="w-fit absolute right-[3px] top-[3px] md:right-[5px] md:top-[5px]"
+                type="button"
+                size="sm"
+                disabled={addressStatus === 'loading'}
+                onClick={() => dispatch(fetchAddress())}
+              >
+                Get Address
+              </Button>
+            )}
+          </div>
+
+          {addressError && <FormErrorPartial message={addressError} />}
         </div>
 
         <input type="hidden" name="cart" value={JSON.stringify(cart)} />

@@ -59,9 +59,10 @@ const userSlice = createSlice({
       state.status = 'succeeded'
     })
 
-    builder.addCase(fetchAddress.rejected, (state, action) => {
+    builder.addCase(fetchAddress.rejected, (state) => {
       state.status = 'failed'
-      state.error = action.error.message ?? ''
+      state.error =
+        'There was a problem getting the location please provide address manually or tripple check location permission'
       state.address = ''
     })
   }
@@ -73,3 +74,5 @@ export default userSlice.reducer
 
 export const getUsername = (state: RootState) => state.user.username
 export const getUserAddress = (state: RootState) => state.user.address
+export const getAddressStatus = (state: RootState) => state.user.status
+export const getAddressError = (state: RootState) => state.user.error
