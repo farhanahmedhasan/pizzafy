@@ -1,6 +1,6 @@
+import { useFetcher, useLoaderData } from 'react-router'
 import { useReactToPrint } from 'react-to-print'
-import { useLoaderData } from 'react-router'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { calcMinutesLeft, formatCurrency, formatDate } from '../../utils/helpers'
 import Button from '../../components/ui/Button'
@@ -8,13 +8,18 @@ import OrderItem from './partials/OrderItem'
 import Pill from '../../components/ui/Pill'
 
 export default function OrderShowPage() {
-  const order = useLoaderData()
   const pdfRef = useRef<HTMLDivElement>(null)
+  const order = useLoaderData()
+  const fetcher = useFetcher()
 
   const handlePrint = useReactToPrint({
     contentRef: pdfRef,
     documentTitle: `Order: ${order.id}`
   })
+
+  useEffect(() => {
+    if (!fetcher.data && fetcher.state === 'idle') fetcher.load('/menu')
+  }, [fetcher])
 
   return (
     <section ref={pdfRef} className="space-y-8 px-4 py-6">
@@ -42,7 +47,12 @@ export default function OrderShowPage() {
 
       <ul className="divide-y divide-stone-200 border-y border-y-stone-200">
         {order.cart.map((item) => (
-          <OrderItem key={item.pizzaId} item={item} />
+          <OrderItem
+            key={item.pizzaId}
+            item={item}
+            isLoadingIngredients={fetcher.state === 'loading'}
+            ingredients={fetcher.data?.find((el) => el.id === item.pizzaId).ingredients ?? []}
+          />
         ))}
       </ul>
 
