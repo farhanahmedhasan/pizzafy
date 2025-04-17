@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router'
 
 import OrderCreatePage, { clientCreateOrderAction } from './pages/order-page/OrderCreatePage'
+import OrderShowPage, { clientUpdateOrderPriority } from './pages/order-page/OrderShowPage'
 import ErrorIndexPage from './pages/error-page/ErrorIndexPage'
 import { getMenu, getOrder } from './services/apiRestaurant'
-import OrderShowPage from './pages/order-page/OrderShowPage'
 import Error404Page from './pages/error-page/Error404Page'
 import Homepage from './pages/home-page/Homepage'
 import MenuPage from './pages/menu-page/MenuPage'
@@ -41,6 +41,7 @@ const router = createBrowserRouter([
         path: '/order/:OrderId',
         element: <OrderShowPage />,
         loader: async ({ params }) => await getOrder(params.OrderId),
+        action: clientUpdateOrderPriority,
         errorElement: <ErrorIndexPage />,
         hydrateFallbackElement: <Spinner />
       },

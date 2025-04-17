@@ -3,6 +3,7 @@ import { useReactToPrint } from 'react-to-print'
 import { useEffect, useRef } from 'react'
 
 import { calcMinutesLeft, formatCurrency, formatDate } from '../../utils/helpers'
+import { updateOrder } from '../../services/apiRestaurant'
 import Button from '../../components/ui/Button'
 import OrderItem from './partials/OrderItem'
 import Pill from '../../components/ui/Pill'
@@ -63,6 +64,24 @@ export default function OrderShowPage() {
         )}
         <p className="font-bold">To pay on delivery: {formatCurrency(order.orderPrice + order.priorityPrice)}</p>
       </div>
+
+      {!order.priority && <UpdateOrder />}
     </section>
   )
+}
+
+function UpdateOrder() {
+  const fetcher = useFetcher()
+  return (
+    <fetcher.Form method="PATCH" className="text-right">
+      <Button>Make it priority</Button>
+    </fetcher.Form>
+  )
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function clientUpdateOrderPriority({ request, params }) {
+  const data = { priority: true }
+  await updateOrder(params.OrderId, data)
+  return null
 }
